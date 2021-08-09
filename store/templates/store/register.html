@@ -1,0 +1,25 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<form id="form" method="POST">
+    {% csrf_token %}
+    <div class="form-field">
+        <input required class="form-control" type="text" name="username" placeholder="UserName...">
+    </div>
+    <div class="form-field">
+        <input required class="form-control" type="password" name="password" placeholder="Password...">
+    </div>
+    <div class="form-field">
+        <input required class="form-control" type="text" name="email" placeholder="Email...">
+    </div>
+    <div class="form-field">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name...">
+    </div>
+    <div class="form-field">
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name...">
+    </div>
+    <div class="form-field">
+        <input id="form-button" class="btn btn-success btn-block" type="submit" value="Register">
+    </div>
+</form>
+{% endblock %}
