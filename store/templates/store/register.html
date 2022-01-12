@@ -1,25 +1,45 @@
-{% extends 'store/main.html' %}
+{% extends 'store/base.html' %}
 {% load static %}
 {% block content %}
-<form id="form" method="POST">
-    {% csrf_token %}
-    <div class="form-field">
-        <input required class="form-control" type="text" name="username" placeholder="UserName...">
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Chưa có tài khoản?</p>
+                    <h1>Đăng ký</h1>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-field">
-        <input required class="form-control" type="password" name="password" placeholder="Password...">
-    </div>
-    <div class="form-field">
-        <input required class="form-control" type="text" name="email" placeholder="Email...">
-    </div>
-    <div class="form-field">
-        <input class="form-control" type="text" name="first_name" placeholder="First Name...">
-    </div>
-    <div class="form-field">
-        <input class="form-control" type="text" name="last_name" placeholder="Last Name...">
-    </div>
-    <div class="form-field">
-        <input id="form-button" class="btn btn-success btn-block" type="submit" value="Register">
-    </div>
-</form>
+</div>
+<!-- end breadcrumb section -->
+<div class="contact-from-section mt-150 mb-150">
+<div class="container">
+    <form id="form" method="POST">
+        {% csrf_token %}
+        <div class="form-field">
+            <input required class="form-control" type="text" name="username" placeholder="UserName...">
+        </div>
+        <div class="form-field">
+            <input required class="form-control" type="password" name="password" placeholder="Password...">
+        </div>
+        <div class="form-field">
+            <input required class="form-control" type="text" name="email" placeholder="Email...">
+        </div>
+        <div class="form-field">
+            <input class="form-control" type="text" name="first_name" placeholder="First Name...">
+        </div>
+        <div class="form-field">
+            <input class="form-control" type="text" name="last_name" placeholder="Last Name...">
+        </div>
+        <div class="form-field">
+            <input id="form-button" class="btn btn-success btn-block" type="submit" value="Register">
+        </div>
+    </form>
+    <p>Chưa có tài khoản? <a href="{% url 'register' %}">Đăng ký</a></p>
+</div>
+</div>
+
 {% endblock %}

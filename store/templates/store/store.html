@@ -13,9 +13,9 @@
                     <img class="thumbnail" src="{% static 'images/placeholder.png' %}" alt="Product">
                     {% endif %}
                     <hr>
-                    <a href="{% url 'add' product.id %}" class="btn btn-outline-secondary">Add to cart</a>
-                    <a class="btn btn-outline-success">View</a>
-                    <h6 style="float: right; display: inline;">Price: <strong>${{ product.price }}</strong></h6>
+                    <a href="{% url 'add' product.id %}" class="btn btn-outline-secondary">Thêm vào giỏ</a>
+                    <a href="{% url 'detail' product.id %}" class="btn btn-outline-success">Xem</a>
+                    <h6 style="float: right; display: inline;">Giá: <strong>${{ product.price }}</strong></h6>
                </div>
 
           </div>

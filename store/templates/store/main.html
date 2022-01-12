@@ -18,7 +18,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'store' %}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'store' %}">Trang chủ <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'cart' %}"><img id="cart-icon" src="{% static 'images/cart.png' %}"></a>
@@ -28,26 +28,36 @@
       </li>
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link disabled" href="{% url 'login' %}">Login</a>
+        <a class="nav-link disabled" href="{% url 'login' %}">Đăng nhập</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="{% url 'register' %}">Register</a>
+        <a class="nav-link disabled" href="{% url 'register' %}">Đăng ký</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        <a class="nav-link" href="{% url 'logout' %}">Đăng xuất</a>
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-link" href="{% url 'login' %}">Đăng nhập</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'register' %}">Register</a>
+        <a class="nav-link" href="{% url 'register' %}">Đăng ký</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="{% url 'logout' %}">Logout</a>
+        <a class="nav-link disabled" href="{% url 'logout' %}">Đăng xuất</a>
       </li>
      
       {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'addproduct' %}">Bán hàng</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'info' %}">Cửa hàng của tôi</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'usershipping' %}">Đơn hàng của tôi</a>
+      </li>
+      
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Resignation
@@ -75,7 +85,7 @@
                 {% block content %}
 
 
-                 {% endblock content %}
+                 {% endblock %}
          </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

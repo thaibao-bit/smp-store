@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from django.db.models.expressions import F
 
 # Create your models here.
@@ -14,10 +15,11 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, null=True)
+    description = models.TextField(null=True)
     price = models.FloatField(null=True)
     available = models.BooleanField(default=True, null=True, blank=False)
-    image = models.ImageField(null=True,blank=True)
-
+    image = models.ImageField()
+    seller = models.ForeignKey(User, on_delete=CASCADE, null=True)
     def __str__(self):
         return self.name
 
@@ -25,7 +27,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    completed = models.BooleanField(default=False, null=True, blank=False)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
@@ -43,10 +45,12 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
+    shippingstatus = models.BooleanField(default=False, null=True, blank=False)
     added_date = models.DateTimeField(auto_now_add=True)
+    seller = models.ForeignKey(User, on_delete=CASCADE, null=True )
 
     def __str__(self):
         return str(str(self.quantity)+" "+str(self.product))+ " of Order with id "+ str(self.order.id)
@@ -59,10 +63,14 @@ class OrderItem(models.Model):
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.ForeignKey(Order,  on_delete=models.SET_NULL, null=True, blank=True)
-    address = models.CharField(max_length=255, null=True)
-    district = models.CharField(max_length=55, null=True)
-    city = models.CharField(max_length=55, null=True)
+    address = models.CharField(max_length=255, null=True, default=" ")
+    district = models.CharField(max_length=55, null=True, default=" ")
+    city = models.CharField(max_length=55, null=True, default=" ")
     added_date = models.DateTimeField(auto_now_add=True)
+    shippingstatus = models.BooleanField(default=False, null=True, blank=False)
+    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="shipping_seller")
+    product = models.ManyToManyField(Product, related_name="shipping_product", blank=True)
+    orderitems = models.ManyToManyField(OrderItem, related_name="shipping_item", blank=True)
 
     def __str__(self):
-        return self.customer
+        return str(self.order)

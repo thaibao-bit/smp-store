@@ -1,0 +1,63 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html>
+    
+    <body>
+        <div class="album py-5">
+            <div class="container">
+                <div class="row infinite-container">
+                    {% for product in products %}
+                    <div class="col-md-4 infinite-item">
+                         <div class="box">
+                              <h6><strong>{{ product.name }}</strong></h6>
+                              <hr>
+                              {% if product.image != Null %}
+                              <img class="thumbnail" src="{{product.image.url}}" alt="Product">
+                              {% else %}
+                              <img class="thumbnail" src="{% static 'images/placeholder.png' %}" alt="Product">
+                              {% endif %}
+                              <hr>
+                              <a href="{% url 'add' product.id %}" class="btn btn-outline-secondary">Thêm vào giỏ</a>
+                              <a href="{% url 'detail' product.id %}" class="btn btn-outline-success">Xem</a>
+                              <h6 style="float: right; display: inline;">Giá: <strong>${{ product.price }}</strong></h6>
+                         </div>
+          
+                    </div>
+                    {% endfor %}
+          
+                </div>
+                {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                {% endif %}
+                <div class="d-flex justify-content-center" style="display:none;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/infinite.min.js' %}"></script>
+    <script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+        
+    },
+    offset: 'bottom-in-view',
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }
+    
+        
+    });
+
+              </script>
+    {% endblock %}

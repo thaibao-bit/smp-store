@@ -1,0 +1,225 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- home page slider -->
+<div class="homepage-slider">
+    <!-- single home slider -->
+    <div class="single-homepage-slider homepage-bg-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
+                    <div class="hero-text">
+                        <div class="hero-text-tablecell">
+                            <p class="subtitle">Fresh & Organic</p>
+                            <h1>Delicious Seasonal Fruits</h1>
+                            <div class="hero-btns">
+                                <a href="shop.html" class="boxed-btn">Fruit Collection</a>
+                                <a href="contact.html" class="bordered-btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- single home slider -->
+    <div class="single-homepage-slider homepage-bg-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 text-center">
+                    <div class="hero-text">
+                        <div class="hero-text-tablecell">
+                            <p class="subtitle">Fresh Everyday</p>
+                            <h1>100% Organic Collection</h1>
+                            <div class="hero-btns">
+                                <a href="shop.html" class="boxed-btn">Visit Shop</a>
+                                <a href="contact.html" class="bordered-btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- single home slider -->
+    <div class="single-homepage-slider homepage-bg-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 text-right">
+                    <div class="hero-text">
+                        <div class="hero-text-tablecell">
+                            <p class="subtitle">Mega Sale Going On!</p>
+                            <h1>Get December Discount</h1>
+                            <div class="hero-btns">
+                                <a href="shop.html" class="boxed-btn">Visit Shop</a>
+                                <a href="contact.html" class="bordered-btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end home page slider -->
+
+<!-- product section -->
+<div class="product-section mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">	
+                    <h3><span class="orange-text">Cưả hàng </span>của tôi</h3>
+                    <p>Ở đây chưá tất cả sản phẩm mà bạn đã đăng bán</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for produc in product %}
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="{% url 'detail' produc.id %}"><img src="{{ produc.image.url }}" alt=""></a>
+                    </div>
+                    <h3>{{produc.name}}</h3>
+                    <p class="product-price"><span>/</span> {{produc.price}}$ </p>
+                    <a href="{% url 'add' produc.id %}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                    {% if produc.available == True %}
+                    <a href="{% url 'available' produc.id %}" class="boxed-btn">Hết hàng</a>
+                    {% else %}
+                    <a href="{% url 'available' produc.id %}" class="boxed-btn">Bán Tiếp</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+
+            <p>(Bạn hiện không bày bán bất cứ sản phẩm nào)</p>
+            
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">	
+                    <h3><span class="orange-text">Đơn hàng </span>khách đã đặt</h3>
+                    <p>Liên hệ shipper giao hàng nhanh thôi nào!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="cart-table">
+                        <thead class="cart-table-head">
+                            <tr class="table-head-row">
+                                <th class="product-remove"></th>
+                                <th class="product-image">Ảnh</th>
+                                <th class="product-name">Sản phẩm</th>
+                                <th class="product-price">Giá</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-total">Địa chỉ</th>
+                                <th class="product-total">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in shipping %}
+                            {%for n in s.orderitems.all %}
+                            <tr class="table-body-row">
+                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+                                <td class="product-image"><img src="{{n.product.image.url}}" alt=""></td>
+                                <td class="product-name">{{n.product.name}}</td>
+                                <td class="product-price">${{n.product.price}}</td>
+                                <td class="product-quantity">{{n.quantity}}</td>
+                                <td class="product-total">{{s.address}}, {{s.district}}, {{s.city}}</td>
+                                <td>{% if n.shippingstatus == Null %}
+                                    <div style="flex:1"><a href="{% url 'confirm' s.id %}">Xác nhận</a></div>
+                                    {% else %}
+                                    <div style="flex:1"><p>Khách chưa nhận được hàng</p></div>
+                                    {% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                            {% empty %}
+                                <p><small>(Hiện chưa có khách đặt hàng)</small></p>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">	
+                    <h3><span class="orange-text">Hàng </span>đã bán</h3>
+                    <p>Đếm tiền thôi nào!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="cart-table">
+                        <thead class="cart-table-head">
+                            <tr class="table-head-row">
+                                <th class="product-remove"></th>
+                                <th class="product-image">Ảnh</th>
+                                <th class="product-name">Sản phẩm</th>
+                                <th class="product-price">Giá</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-total">Địa chỉ</th>
+                                <th class="product-total">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in shipped %}
+                            {%for n in s.orderitems.all %}
+                            <tr class="table-body-row">
+                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+                                <td class="product-image"><img src="{{n.product.image.url}}" alt=""></td>
+                                <td class="product-name">{{n.product.name}}</td>
+                                <td class="product-price">${{n.product.price}}</td>
+                                <td class="product-quantity">{{n.quantity}}</td>
+                                <td class="product-total">{{s.address}}, {{s.district}}, {{s.city}}</td>
+                                <td>Đã bán</td>
+                            </tr>
+                            {% endfor %}
+                            {% empty %}
+                                <p><small>(Chưa có giao dịch thành công nào)</small></p>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- end product section -->
+
+
+{% endblock %}
+
+
+
+{% for s in shipped %}
+{%for n in s.orderitems.all %}
+<div class="cart-row">
+				
+    <div style="flex:2"><img class="thumbnail" style="width: 80px; height: 80px;" src="{{n.product.image.url}}"></div>
+    <div style="flex:2"><p>{{n.product.name}}</p></div>
+    <div style="flex:1"><p>${{ n.product.price }}</p></div>
+    <div style="flex:1"><p>x{{ n.quantity}}</p></div>
+    <div style="flex:1"><p>{{s.address}}, {{s.district}}, {{s.city}}</p></div>
+    <div style="flex:1"><p>Đã bán</p></div>
+    
+</div>
+
+{% endfor %}
+{% empty %}
+<p><small>(Chưa có giao dịch thành công nào)</small></p>
+{% endfor %}

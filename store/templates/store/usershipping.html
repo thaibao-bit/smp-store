@@ -1,0 +1,152 @@
+
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Thanh toán nhanh chóng & tiện lợi</p>
+						<h1>Trạng thái các đơn hàng</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+            <div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="section-title">	
+						<h3><span class="orange-text">Các đơn hàng </span> đã đặt</h3>
+						<p>Kiểm tra hàng kĩ trước khi nhận hàng & xác nhận trạng thái </p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Ảnh</th>
+									<th class="product-name">Sản phẩm</th>
+									<th class="product-price">Giá</th>
+									<th class="product-quantity">Số lượng</th>
+									<th class="product-total">Trạng thái</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for n in orderitems %}
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src="{{n.product.image.url}}" alt=""></td>
+									<td class="product-name">{{n.product.name}}</td>
+									<td class="product-price">${{ n.product.price }}</td>
+									<td class="product-quantity">{{ n.quantity}}
+									
+									</td>
+									<td class="product-total"><div style="flex:1"><a href="{% url 'shipped' n.id %}">Tôi nhận hàng rồi</a></div></td>
+								</tr>
+								{% endfor %}
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="cart-section mt-150 mb-150">
+		<div class="container">
+            <div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="section-title">	
+						<h3><span class="orange-text">Các đơn hàng</span> đã thanh toán</h3>
+						<p></p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Ảnh</th>
+									<th class="product-name">Sản phẩm</th>
+									<th class="product-price">Giá</th>
+									<th class="product-quantity">Số lượng</th>
+									<th class="product-total">Trạng thái</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for n in ordereditems %}
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src="{{n.product.image.url}}" alt=""></td>
+									<td class="product-name">{{n.product.name}}</td>
+									<td class="product-price">${{ n.product.price }}</td>
+									<td class="product-quantity">{{ n.quantity}}
+									
+									</td>
+									<td class="product-total"><p>Đã thanh toán </p></td>
+								</tr>
+								{% endfor %}
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+
+
+<br>
+<h1>Các đơn hàng của tôi:</h1>
+<hr>
+{% for n in orderitems %}
+<div class="cart-row">
+				
+    <div style="flex:2"><img class="thumbnail" style="width: 80px; height: 80px;" src="{{n.product.image.url}}"></div>
+    <div style="flex:2"><p>{{n.product.name}}</p></div>
+    <div style="flex:1"><p>${{ n.product.price }}</p></div>
+    <div style="flex:1"><p>x{{ n.quantity}}</p></div>
+    <div style="flex:1"><a href="{% url 'shipped' n.id %}">Tôi nhận hàng rồi</a></div>
+
+</div>
+{% empty %}
+<p><small>(Bạn hiện chưa đặt mua mặt hàng nào)</small></p>
+
+{% endfor %}
+
+<br>
+<h1>Các đơn hàng đã nhận:</h1>
+<hr>
+{% for n in ordereditems %}
+<div class="cart-row">
+				
+    <div style="flex:2"><img class="thumbnail" style="width: 80px; height: 80px;" src="{{n.product.image.url}}"></div>
+    <div style="flex:2"><p>{{n.product.name}}</p></div>
+    <div style="flex:1"><p>${{ n.product.price }}</p></div>
+    <div style="flex:1"><p>x{{ n.quantity}}</p></div>
+
+</div>
+{% empty %}
+<p><small>(Bạn hiện chưa có bất kì đơn hàng nào thanh toán thành công)</small></p>
+
+{% endfor %}
