@@ -77,9 +77,15 @@ def cart(request, *args, **kwargs):
 
 def product_detail(request,id , *arg, **kwargs):
     product = Product.objects.get(id = id)
-    products = Product.objects.all()
+    products = Product.objects.filter(available=True)
     context = {"product":product, "products":products}
     return render(request, "store/single-product.html", context)
+
+def promotion_detail(request,id , *arg, **kwargs):
+    promotion = Promotion.objects.get(id = id)
+    promotions = Promotion.objects.all()
+    context = {"promotion":promotion, "promotions":promotions}
+    return render(request, "store/single-news.html", context)
 
 
 def check_out(request, *args, **kwargs):
@@ -217,6 +223,7 @@ class Home(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
         context['top'] = Product.objects.get(price= 999)
+        context['news'] = Promotion.objects.all()
         return context
 
 class Home2(LoginRequiredMixin, ListView):

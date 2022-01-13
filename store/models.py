@@ -12,6 +12,12 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+class Category(models.Model):
+    category = models.CharField(max_length=255, null=False, blank=False)
+    def __str__(self):
+        return self.category
+
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255, null=True)
@@ -20,6 +26,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True, null=True, blank=False)
     image = models.ImageField()
     seller = models.ForeignKey(User, on_delete=CASCADE, null=True)
+    tag = models.ManyToManyField(Category, related_name="tag_product", blank=True)
     def __str__(self):
         return self.name
 
@@ -74,3 +81,14 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return str(self.order)
+
+
+class Promotion(models.Model):
+    title = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=CASCADE, null= False)
+    date = models.DateTimeField(auto_now_add=True, null=False)
+    tag = models.ManyToManyField(Category, related_name="tag_cate" , blank=True)
+    content = models.TextField(null= False, blank=False)
+    picture = models.ImageField()
+    def __str__(self):
+        return self.title

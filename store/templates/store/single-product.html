@@ -38,7 +38,14 @@
 								<input type="number" placeholder="1">
 							</form>
 							<a href="{% url 'add' product.id %}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-							<p><strong>Categories: </strong>Second hand,...</p>
+							<div class="tag-section">
+								<h4>Tags</h4>
+								<ul>
+									{% for n in product.tag.all %}
+									<li><a href="{% url 'home2' %}">{{n}}</a></li>
+									{% endfor %}
+								</ul>
+							</div>
 						</div>
 						<h4>Share:</h4>
 						<ul class="product-share">
@@ -72,7 +79,7 @@
 							<a href="{% url 'detail' product.id %}"><img src="{{product.image.url}}" alt=""></a>
 						</div>
 						<h3>{{ product.name }}</h3>
-						<p class="product-price"><span>Per Kg</span> 85$ </p>
+						<p class="product-price"><span>/</span> 85$ </p>
 						<a href="{% url 'add' product.id %}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
 					</div>
 				</div>
